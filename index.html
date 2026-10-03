@@ -264,7 +264,7 @@ nav.tabs button[aria-current="page"]{color:var(--accent)}
 (function(){
 "use strict";
 /* ---------- conexión (la clave "anon" es pública; la seguridad la dan las reglas RLS de supabase/schema.sql) ---------- */
-const APP_VERSION = "2026-10-01.1"; // cambia con cada versión publicada
+const APP_VERSION = "2026-10-03.1"; // cambia con cada versión publicada
 const SB_URL = "https://edkjcejjikhkswercjrf.supabase.co";
 const SB_KEY = "sb_publishable_GS5Cckg7uVBW_4SqGIXv2w_6duLifoT";
 /* ---------- utilidades ---------- */
@@ -678,7 +678,7 @@ function suggest(name, plan, excludeId, unidad){
   if (gap > 21) return {kind: "down", peso: roundTo(W * 0.9, inc), html: `Hace ${gap} días que no lo haces. Vuelve con <b>${W_(roundTo(W * 0.9, inc))}</b> (≈90%) y retoma la subida desde ahí.`};
   if (allTop){
     if (!inc) return {kind: "up", peso: W, html: `Completaste ${work.length}×${plan.repMax}. Suma <b>1–2 reps</b> por serie o agrega lastre.`};
-    if (allEasy){ const n2 = W + 2 * inc; return {kind: "up", peso: n2, html: `Hiciste ${work.length}×${plan.repMax} con ${W_(W)} y todas te salieron fáciles. <b>Sube a ${W_(n2)}</b> (doble salto).`}; }
+    if (allEasy) return {kind: "up", peso: W + inc, html: `Hiciste ${work.length}×${plan.repMax} con ${W_(W)} y todas te salieron fáciles. <b>Sube a ${W_(W + inc)}.</b>`};
     if (fails >= Math.ceil(work.length / 2)) return {kind: "keep", peso: W, html: `Llegaste a ${plan.repMax} reps con ${W_(W)}, pero al fallo en ${fails} de ${work.length} series. <b>Repite ${W_(W)}</b> una vez más; si sale sin llegar al fallo, sube ${step}.`};
     return {kind: "up", peso: W + inc, html: `Hiciste ${work.length}×${plan.repMax} con ${W_(W)} (${repsTxt}). <b>Sube a ${W_(W + inc)}.</b>`};
   }
@@ -952,7 +952,7 @@ function renderRutinas(){
     <p style="margin:0">▲ <b>Subes peso</b> cuando completas todas las series en el tope del rango. Barra de tren superior +2,5 kg, piernas +5 kg, mancuernas +2 kg (lo puedes cambiar en cada ejercicio).</p>
     <p style="margin:0">● <b>Mantienes</b> mientras estés dentro del rango, sumando reps de a poco.</p>
     <p style="margin:0">▼ <b>Bajas un 10%</b> si dos sesiones seguidas no llegas al mínimo del rango, o si llevas más de 3 semanas sin hacer el ejercicio.</p>
-    <p style="margin:0"><b>Sensación de cada serie:</b> si todas te salieron fáciles, te sugiero subir el doble. Si llegaste al tope pero al fallo en la mitad o más de las series, repites el peso una vez más antes de subir.</p>
+    <p style="margin:0"><b>Sensación de cada serie:</b> si llegaste al tope pero al fallo en la mitad o más de las series, repites el peso una vez más antes de subir.</p>
     <p style="margin:0"><b>Poleas y máquinas:</b> si el número de la máquina no son kilos reales, usa la unidad <b>Placa</b>. La sugerencia será “sube 1 placa” y solo se compara contra registros de esa misma unidad.</p>
   </div>`;
 }
